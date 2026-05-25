@@ -961,7 +961,20 @@ function calcMiles(){
   const s=parseFloat(document.getElementById('startMiles').value)||0;
   const e=parseFloat(document.getElementById('endMiles').value)||0;
   const d=e-s;
-  document.getElementById('milesDisplay').textContent = (s&&e&&d>0) ? d.toFixed(0)+' miles' : '—';
+  const el = document.getElementById('milesDisplay');
+  if(e > 0 && s === 0){
+    el.textContent = '⚠️ Enter start miles';
+    el.style.color = 'var(--red, #f43f5e)';
+  } else if(s && e && d > 0){
+    el.textContent = d.toFixed(0)+' miles';
+    el.style.color = 'var(--orange)';
+  } else if(s && e && d <= 0){
+    el.textContent = '⚠️ End must be > start';
+    el.style.color = 'var(--red, #f43f5e)';
+  } else {
+    el.textContent = '—';
+    el.style.color = 'var(--orange)';
+  }
 }
 
 // ── STOPS ─────────────────────────────────────
@@ -1020,7 +1033,14 @@ function saveRide(){
   const rating    = currentRating;
 
   if(!date){ toast('Please pick a date!','err'); return; }
-  if(miles <= 0 && startMi > 0){ toast('Ending mileage must be greater than starting!','err'); return; }
+
+  // Miles validation
+  if(endMi > 0 && startMi === 0){
+    toast('Please enter your starting odometer reading!','err'); return;
+  }
+  if(endMi > 0 && startMi > 0 && miles <= 0){
+    toast('Ending mileage must be greater than starting!','err'); return;
+  }
 
   // Collect fuel stops
   const fuelStops=[];
