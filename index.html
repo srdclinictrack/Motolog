@@ -1279,12 +1279,12 @@ function saveRide(){
   const startMi   = parseFloat(document.getElementById('startMiles').value)||0;
   const endMi     = parseFloat(document.getElementById('endMiles').value)||0;
   const miles     = endMi - startMi;
+  const routeDesc = getRouteDescription();
   const route     = document.getElementById('rideRoute').value.trim() || routeDesc;
   const notes     = document.getElementById('rideNotes').value.trim();
   const weather   = document.getElementById('rideWeather').value;
   const temp      = document.getElementById('rideTemp').value ? document.getElementById('rideTemp').value + '°F' : '';
   const mapUrl    = buildMapsUrl();
-  const routeDesc = getRouteDescription();
   const rating    = currentRating;
 
   if(!date){ toast('Please pick a date!','err'); return; }
